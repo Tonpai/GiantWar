@@ -1,5 +1,5 @@
-Author:
-	Tanadon Ratsameephen
-	Siriyakorn Paengkaew
-Details:
-	Phaser 2.9.3 (phaser.min.js)
+Author:<br>
+	Tanadon Ratsameephen<br>
+	Siriyakorn Paengkaew<br>
+Details:<br>
+	Phaser 2.9.3 (phaser.min.js)<br>
