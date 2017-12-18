@@ -1,8 +1,8 @@
 "use strict";
 
-var loadSrc = function(game){};
+var titleScreen = function(game){};
 
-loadSrc.prototype = {
+titleScreen.prototype = {
     preload : function(){
         
     },
