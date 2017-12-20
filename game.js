@@ -1,7 +1,8 @@
 "use strict";
 
+var game;
 window.onload = function(){
-    var game = new Phaser.Game(600,400); 
+    game = new Phaser.Game(600,400); 
     game.state.add("loadSrc",loadSrc);
     game.state.add("titleScreen", titleScreen);
     game.state.add("gamePlay", gamePlay);

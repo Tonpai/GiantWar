@@ -8,6 +8,6 @@ gamePlay.prototype = {
         game.load.pack("game-play-assets-1","assets/asset-pack-1.json");
     },
     create : function(){
-        var gamePlayBackground = game.add.image("game-play-background-1");
+        var gamePlayBackground = game.add.image(0,0,"game-play-background-1");
     }
 }
