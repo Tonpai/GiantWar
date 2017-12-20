@@ -6,5 +6,23 @@
             "url": "assets/img/game-play-background-1.png",
             "overwrite": false
         }
+    ],
+    "character-1" : [
+        {
+            "type": "image",
+            "key": "game-play-background-1",
+            "url": "assets/img/btn-character-1.png",
+            "overwrite": false
+        },
+        {
+            "type": "spritesheet",
+            "key": "character-1",
+            "url": "assets/sprites/sprite-character-1.png",
+            "frameWidth": 90,
+            "frameHeight": 60,
+            "frameMax": 1,
+            "margin": 0,
+            "spacing": 0
+        }
     ]
 }
