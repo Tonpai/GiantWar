@@ -1,0 +1,10 @@
+{
+    "game-play-assets-1" : [
+        {
+            "type": "image",
+            "key": "game-play-background-1",
+            "url": "assets/img/game-play-background-1.png",
+            "overwrite": false
+        }
+    ]
+}
