@@ -15,11 +15,11 @@
             "overwrite": false
         },
         {
-            "type": "spritesheet",
+            "type": "image",
             "key": "character-1",
-            "url": "assets/sprites/sprite-character-1.png",
-            "frameWidth": 90,
-            "frameHeight": 60,
+            "url": "assets/img/sprite-character-1.png",
+            "frameWidth": 0,
+            "frameHeight": 0,
             "frameMax": 1,
             "margin": 0,
             "spacing": 0
