@@ -4,7 +4,15 @@ var gamePlay = function(game){};
 
 var tilesWidth = 50;
 var tilesHeight = 60;
-var tilesSpace = 5;
+var tilesSpace = 2;
+
+//buttonSize
+var buttonSize = 3;
+
+//characterImport
+var characterList = [
+    "character-1"
+];
 
 gamePlay.prototype = {
     tableRows : 5,
@@ -19,6 +27,7 @@ gamePlay.prototype = {
     create : function(){
         var gamePlayBackground = game.add.image(0,0,"game-play-background-1");
         this.prepareField();
+        this.prepareSelectCharacter();
         this.player = game.add.sprite(game.world.centerX, game.world.centerY,  "character-1");
         this.player.anchor.setTo(0.5,0.5);
         // Set object to Arcade physics engine
@@ -40,15 +49,22 @@ gamePlay.prototype = {
             this.player.body.velocity.x = 0;
         }
     },
+    prepareSelectCharacter : function(){
+        var leftSpace = 5;
+        var topSpace = 5;
+        for(var i=0 ; i<buttonSize ; i++){
+            var btnSelect = game.add.button(leftSpace, topSpace + i*(tilesHeight + tilesSpace),"tiles-1-1",
+            this.onClickTiles, this);
+        }
+    },
     prepareField : function(){
+        //Prepare field
         var leftSpace = (game.width - (this.tableCols * tilesWidth)- ((this.tableCols-1) * tilesSpace)) / 2;
         var topSpace = (game.height - (this.tableRows * tilesHeight)- ((this.tableRows-1) * tilesSpace)) / 2;
         for(var i=0 ; i < this.tableRows ; i++) {
             for(var j=0 ; j < this.tableCols ; j++) {
-                game.add.image(leftSpace+ 40 + j*(tilesWidth + tilesSpace), topSpace + i*(tilesHeight + tilesSpace),"tiles-1-1");
-                var tiles = game.add.button(leftSpace+ 40 + j*(tilesWidth + tilesSpace), topSpace + i*(tilesHeight + tilesSpace),"tiles-1-1",
+                var tiles = game.add.button(leftSpace+ 40 + j*(tilesWidth + tilesSpace), topSpace +20+ i*(tilesHeight + tilesSpace),"tiles-1-1",
                     this.onClickTiles, this);
-                tiles.frame = 10;
             }
         }
     },
