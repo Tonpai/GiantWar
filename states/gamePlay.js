@@ -20,6 +20,7 @@ gamePlay.prototype = {
     },
     update : function(){
         this.movePlayer();
+        this.player.body.velocity.x = -10;
     },
     movePlayer : function(){
         if(this.cursor.left.isDown){
