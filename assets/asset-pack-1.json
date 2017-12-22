@@ -24,5 +24,13 @@
             "margin": 0,
             "spacing": 0
         }
+    ],
+    "tiles-1" : [
+        {
+            "type": "image",
+            "key": "tiles-1-1",
+            "url": "assets/img/tiles-1-1.png",
+            "overwrite": false
+        }
     ]
 }
