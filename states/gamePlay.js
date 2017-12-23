@@ -19,6 +19,10 @@ gamePlay.prototype = {
         // Load all asset from the list in JSON file.
         game.load.pack("game-play-assets-1", "assets/asset-pack-1.json");
         game.load.pack("tiles-1", "assets/asset-pack-1.json");
+
+        //FixInBeta :: load from select character state.
+        game.load.json("characterHuman", "character/character-human.json");
+
         // Test script for Show character
         for(var i=0 ; i<characterList.length ; i++){
             game.load.json(characterList[i],"assets/asset-pack-1.json");
@@ -27,6 +31,10 @@ gamePlay.prototype = {
         
     },
     create : function(){
+        //FixInBeta :: delete when select character state is finish.
+        var phaserJSON = game.cache.getJSON("characterHuman");
+        console.log(phaserJSON[0]);
+
         var gamePlayBackground = game.add.image(0,0,"game-play-background-1");
         // this.prepareField();
         this.field.create();

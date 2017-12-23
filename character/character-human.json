@@ -1,15 +1,12 @@
-{
-    "character-human" : [
+[
         {
             "character-name" : "human1",
             "character-sprite-key" : "sprite-character-1",
             "character-image-key" : "btn-character-1"
-
         },
         {
             "character-name" : "human2",
             "character-sprite-key" : "sprite-character-2",
             "character-image-key" : "btn-character-2" 
         }
-    ]
-}
+]
