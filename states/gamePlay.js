@@ -2,10 +2,6 @@
 
 var gamePlay = function(game){};
 
-var tilesWidth = 50;
-var tilesHeight = 60;
-var tilesSpace = 2;
-
 //buttonSize
 var buttonSize = 3;
 
@@ -17,17 +13,25 @@ var characterList = [
 gamePlay.prototype = {
     tableRows : 5,
     tableCols : 9,
+    field : new Field(5, 9, "tiles-1-1", 50, 60, 2, 20, 40, this.onClickTiles, this),
+    characterPanel : new CharacterPanel(characterList, 90, 50, 2, 5, 5,this.onClickTiles, this),
     preload :function(){
         // Load all asset from the list in JSON file.
         game.load.pack("game-play-assets-1", "assets/asset-pack-1.json");
         game.load.pack("tiles-1", "assets/asset-pack-1.json");
         // Test script for Show character
-        game.load.pack("character-1", "assets/asset-pack-1.json");
+        for(var i=0 ; i<characterList.length ; i++){
+            game.load.json(characterList[i],"assets/asset-pack-1.json");
+            game.load.pack(characterList[i], "assets/asset-pack-1.json");
+        }
+        
     },
     create : function(){
         var gamePlayBackground = game.add.image(0,0,"game-play-background-1");
-        this.prepareField();
-        this.prepareSelectCharacter();
+        // this.prepareField();
+        this.field.create();
+        // this.prepareSelectCharacter();
+        this.characterPanel.create();
         this.player = game.add.sprite(game.world.centerX, game.world.centerY,  "character-1");
         this.player.anchor.setTo(0.5,0.5);
         // Set object to Arcade physics engine
@@ -36,7 +40,6 @@ gamePlay.prototype = {
     },
     update : function(){
         this.movePlayer();
-        this.player.body.velocity.x = -10;
     },
     movePlayer : function(){
         if(this.cursor.left.isDown){
@@ -50,25 +53,64 @@ gamePlay.prototype = {
         }
     },
     prepareSelectCharacter : function(){
-        var leftSpace = 5;
-        var topSpace = 5;
-        for(var i=0 ; i<buttonSize ; i++){
-            var btnSelect = game.add.button(leftSpace, topSpace + i*(tilesHeight + tilesSpace),"tiles-1-1",
-            this.onClickTiles, this);
-        }
-    },
-    prepareField : function(){
-        //Prepare field
-        var leftSpace = (game.width - (this.tableCols * tilesWidth)- ((this.tableCols-1) * tilesSpace)) / 2;
-        var topSpace = (game.height - (this.tableRows * tilesHeight)- ((this.tableRows-1) * tilesSpace)) / 2;
-        for(var i=0 ; i < this.tableRows ; i++) {
-            for(var j=0 ; j < this.tableCols ; j++) {
-                var tiles = game.add.button(leftSpace+ 40 + j*(tilesWidth + tilesSpace), topSpace +20+ i*(tilesHeight + tilesSpace),"tiles-1-1",
-                    this.onClickTiles, this);
-            }
-        }
+        // var leftSpace = 5;
+        // var topSpace = 5;
+        // for(var i=0 ; i<buttonSize ; i++){
+        //     var btnSelect = game.add.button(leftSpace, topSpace + i*(tilesHeight + tilesSpace),"tiles-1-1",
+        //     this.onClickTiles, this);
+        //     btnSelect.value = i;
+        // }
     },
     onClickTiles : function(){
         console.log("Click But");
+    }
+}
+
+function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileSpace, biasTop, biasLeft, callbackFunction, context){
+    this.fieldRows = fieldRows;
+    this.fieldCols = fieldCols;
+    this.biasTop = biasTop;
+    this.biasLeft = biasLeft;
+    this.tileImageName = tileImageName;
+    this.tileWidth = tileWidth;
+    this.tileHeight = tileHeight;
+    this.tileSpace = tileSpace;
+    this.callbackFunction = callbackFunction;
+    this.context = context;
+
+    this.create = function(){
+        // Calculate for making the field is center.
+        var leftSpace = (game.width - (this.fieldCols * this.tileWidth)- ((this.fieldCols-1) * this.tileSpace)) / 2;
+        var topSpace = (game.height - (this.fieldRows * this.tileHeight)- ((this.fieldRows-1) * this.tileSpace)) / 2;
+        console.log(game.width);
+        for(var i=0 ; i < this.fieldRows ; i++){
+            for(var j=0 ; j < this.fieldCols ; j++){
+                // var x = this.biasLeft + this.leftSpace + j * (this.tileWidth + this.tileSpace);
+                // var y = this.biasTop + this.topSpace + i * (this.tileHeight + this.tileSpace);
+                var x = leftSpace + this.biasLeft + j * (this.tileWidth + this.tileSpace);
+                var y = topSpace + this.biasTop + i * (this.tileHeight + this.tileSpace);
+                var fieldTile = game.add.button(x, y, tileImageName, this.callbackFunction, context);
+            }
+        }
+    };
+}
+
+function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpace, topSpace, callbackFunction, context){
+    this.characterList = characterList;
+    this.tileWidth = tileWidth;
+    this.tileHeight = tileHeight;
+    this.tileSpace = tileSpace;
+    this.leftSpace = leftSpace;
+    this.topSpace = topSpace;
+    this.callbackFunction = callbackFunction;
+    this.context = context;
+
+    this.create = function(){
+        for(var i=0; i < characterList.length; i++){
+            var character = game.cache.getJSON(characterList[i]);
+
+            var button = game.add.button(this.leftSpace, this.topSpace + i * (this.tileHeight + this.tileSpace), characterList[i], this.callbackFunction,this.context);
+            button.value = i;
+        }
     }
 }
