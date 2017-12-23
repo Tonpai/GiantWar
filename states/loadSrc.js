@@ -7,6 +7,6 @@ loadSrc.prototype = {
         
     },
     create : function(){
-        console.log("Hello World!");
+        game.state.start("titleScreen");
     }
 };
