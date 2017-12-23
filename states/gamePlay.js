@@ -2,40 +2,24 @@
 
 var gamePlay = function(game){};
 
-//buttonSize
-var buttonSize = 3;
-
-//characterImport
-var characterList = [
-    "character-1"
-];
-
 gamePlay.prototype = {
     tableRows : 5,
     tableCols : 9,
-    field : new Field(5, 9, "tiles-1-1", 50, 60, 2, 20, 40, this.onClickTiles, this),
-    characterPanel : new CharacterPanel(characterList, 90, 50, 2, 5, 5,this.onClickTiles, this),
     preload :function(){
-        // Load all asset from the list in JSON file.
+        //Load asset
         game.load.pack("game-play-assets-1", "assets/asset-pack-1.json");
-        game.load.pack("tiles-1", "assets/asset-pack-1.json");
 
-        //FixInBeta :: load from select character state.
-        game.load.json("characterHuman", "character/character-human.json");
-
-        // Test script for Show character
-        for(var i=0 ; i<characterList.length ; i++){
-            game.load.json(characterList[i],"assets/asset-pack-1.json");
-            game.load.pack(characterList[i], "assets/asset-pack-1.json");
+        for (let index = 0; index < characterList.length; index++) {
+            game.load.pack(characterList[index].characterArrayName,"assets/asset-pack-1.json");
+            console.log(characterList[index].characterImageKey);
         }
-        
     },
     create : function(){
-        //FixInBeta :: delete when select character state is finish.
-        var phaserJSON = game.cache.getJSON("characterHuman");
-        console.log(phaserJSON[0]);
+        console.log("Load gamePlay background");
+        this.gamePlayBackground = game.add.image(0,0,"game-play-background-1");
 
-        var gamePlayBackground = game.add.image(0,0,"game-play-background-1");
+        this.field = new Field(5, 9, "tiles-1-1", 50, 60, 2, 20, 40, this.onClickTiles, this);
+        this.characterPanel = new CharacterPanel(characterList, 90, 50, 2, 5, 5,this.onClickTiles, this);
         // this.prepareField();
         this.field.create();
         // this.prepareSelectCharacter();
@@ -59,15 +43,6 @@ gamePlay.prototype = {
         else{
             this.player.body.velocity.x = 0;
         }
-    },
-    prepareSelectCharacter : function(){
-        // var leftSpace = 5;
-        // var topSpace = 5;
-        // for(var i=0 ; i<buttonSize ; i++){
-        //     var btnSelect = game.add.button(leftSpace, topSpace + i*(tilesHeight + tilesSpace),"tiles-1-1",
-        //     this.onClickTiles, this);
-        //     btnSelect.value = i;
-        // }
     },
     onClickTiles : function(){
         console.log("Click But");
@@ -115,10 +90,9 @@ function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpa
 
     this.create = function(){
         for(var i=0; i < characterList.length; i++){
-            var character = game.cache.getJSON(characterList[i]);
-
-            var button = game.add.button(this.leftSpace, this.topSpace + i * (this.tileHeight + this.tileSpace), characterList[i], this.callbackFunction,this.context);
+            var button = game.add.button(this.leftSpace, this.topSpace + i * (this.tileHeight + this.tileSpace), this.characterList[i].characterImageKey, this.callbackFunction,this.context);
             button.value = i;
         }
+        console.log(this.characterList);
     }
 }

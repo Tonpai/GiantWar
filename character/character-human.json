@@ -1,12 +1,20 @@
 [
         {
-            "character-name" : "human1",
-            "character-sprite-key" : "sprite-character-1",
-            "character-image-key" : "btn-character-1"
+            "characterName" : "human1",
+            "characterArrayName" : "character-1",
+            "characterSpriteKey" : "sprite-character-1",
+            "characterImageKey" : "btn-character-1"
         },
         {
-            "character-name" : "human2",
-            "character-sprite-key" : "sprite-character-2",
-            "character-image-key" : "btn-character-2" 
+            "characterName" : "human2",
+            "characterArrayName" : "character-1",
+            "characterSpriteKey" : "sprite-character-1",
+            "characterImageKey" : "btn-character-1"
+        },
+        {
+            "characterName" : "human1",
+            "characterArrayName" : "character-1",
+            "characterSpriteKey" : "sprite-character-1",
+            "characterImageKey" : "btn-character-1"
         }
 ]
