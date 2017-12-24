@@ -2,9 +2,12 @@
 
 var gamePlay = function(game){};
 
+//Relate with Field Function.
+var fieldRowsGroup = [];
+var buttonSelectedCharacter= [];
+var buttonSelectedField = [];
+
 gamePlay.prototype = {
-    tableRows : 5,
-    tableCols : 9,
     preload :function(){
         //Load asset
         game.load.pack("game-play-assets-1", "assets/asset-pack-1.json");
@@ -15,11 +18,13 @@ gamePlay.prototype = {
         }
     },
     create : function(){
+        console.log(buttonSelectedCharacter.length < 1);
+
         console.log("Load gamePlay background");
         this.gamePlayBackground = game.add.image(0,0,"game-play-background-1");
 
         this.field = new Field(5, 9, "tiles-1-1", 50, 60, 2, 20, 40, this.onClickTiles, this);
-        this.characterPanel = new CharacterPanel(characterList, 90, 50, 2, 5, 5,this.onClickTiles, this);
+        this.characterPanel = new CharacterPanel(characterList, 90, 50, 2, 5, 5,this.onClickSelectCharacter, this);
         // this.prepareField();
         this.field.create();
         // this.prepareSelectCharacter();
@@ -44,8 +49,26 @@ gamePlay.prototype = {
             this.player.body.velocity.x = 0;
         }
     },
-    onClickTiles : function(){
-        console.log("Click But");
+    onClickTiles : function(target){
+        //never click before and it's not the same button clicking
+        if(buttonSelectedField.length == 0 && buttonSelectedField.indexOf(target) == -1){
+            buttonSelectedField.push(target);
+        }else if(buttonSelectedField.length == 1 && buttonSelectedField.indexOf(target) != -1){
+            buttonSelectedField.length = 0;
+        }
+
+        // if(buttonSelectedCharacter.length == 1)
+
+        console.log(buttonSelectedField.length);
+    },
+    onClickSelectCharacter : function(target){
+        //never click before and it's not the same button clicking
+        if(buttonSelectedCharacter.length == 0 && buttonSelectedCharacter.indexOf(target) == -1){
+            buttonSelectedCharacter.push(target);
+        }else if(buttonSelectedCharacter.length == 1 && buttonSelectedCharacter.indexOf(target) != -1){
+            buttonSelectedCharacter.length = 0;
+        }
+        console.log(buttonSelectedCharacter.length);
     }
 }
 
@@ -68,12 +91,13 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
         console.log(game.width);
         for(var i=0 ; i < this.fieldRows ; i++){
             for(var j=0 ; j < this.fieldCols ; j++){
-                // var x = this.biasLeft + this.leftSpace + j * (this.tileWidth + this.tileSpace);
-                // var y = this.biasTop + this.topSpace + i * (this.tileHeight + this.tileSpace);
                 var x = leftSpace + this.biasLeft + j * (this.tileWidth + this.tileSpace);
                 var y = topSpace + this.biasTop + i * (this.tileHeight + this.tileSpace);
                 var fieldTile = game.add.button(x, y, tileImageName, this.callbackFunction, context);
+                
             }
+            //สร้าง group ให้ fieldRowsGroup`
+            fieldRowsGroup.push(game.add.group());
         }
     };
 }
@@ -93,6 +117,5 @@ function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpa
             var button = game.add.button(this.leftSpace, this.topSpace + i * (this.tileHeight + this.tileSpace), this.characterList[i].characterImageKey, this.callbackFunction,this.context);
             button.value = i;
         }
-        console.log(this.characterList);
     }
 }
