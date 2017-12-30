@@ -94,7 +94,11 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
                 var x = leftSpace + this.biasLeft + j * (this.tileWidth + this.tileSpace);
                 var y = topSpace + this.biasTop + i * (this.tileHeight + this.tileSpace);
                 var fieldTile = game.add.button(x, y, tileImageName, this.callbackFunction, context);
-                
+                fieldTile.value = {
+                    row : i,
+                    col : j,
+                    stand : false
+                };
             }
             //สร้าง group ให้ fieldRowsGroup`
             fieldRowsGroup.push(game.add.group());
