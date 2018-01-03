@@ -22,8 +22,44 @@
         },
         {
             "type": "image",
-            "key": "character-1",
+            "key": "sprite-character-1",
             "url": "assets/img/sprite-character-1.png",
+            "frameWidth": 0,
+            "frameHeight": 0,
+            "frameMax": 1,
+            "margin": 0,
+            "spacing": 0
+        }
+    ],
+    "character-2" : [
+        {
+            "type": "image",
+            "key": "btn-character-2",
+            "url": "assets/img/btn-character-2.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "sprite-character-2",
+            "url": "assets/img/sprite-character-2.png",
+            "frameWidth": 0,
+            "frameHeight": 0,
+            "frameMax": 1,
+            "margin": 0,
+            "spacing": 0
+        }
+    ],
+    "character-3" : [
+        {
+            "type": "image",
+            "key": "btn-character-3",
+            "url": "assets/img/btn-character-3.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "sprite-character-3",
+            "url": "assets/img/sprite-character-3.png",
             "frameWidth": 0,
             "frameHeight": 0,
             "frameMax": 1,
