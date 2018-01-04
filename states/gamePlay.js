@@ -32,6 +32,10 @@ gamePlay.prototype = {
         this.cursor = game.input.keyboard.createCursorKeys();
     },
     update : function(){
+        if(totalTime < 100&& game.time.now > timer){
+            GenerateGiant(5, 9, 50, 60, 2, 20, 40);
+            console.log("generate giant");
+        }
     }
 }
 
@@ -87,6 +91,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
     }
 }
 
+
 function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpace, topSpace, context){
     this.characterList = characterList;
     this.tileWidth = tileWidth;
@@ -116,4 +121,18 @@ function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpa
             console.log("Player select character : " + target.value);
         }
     }
+}
+var totalTime = 0;
+var timer = 0;
+function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSpace, biasTop, biasLeft){
+    var rand = game.rnd.integerInRange(1, 5);
+    var winPoint = (game.width - (fieldNumCols * tileWidth)- ((fieldNumCols-1) * tileSpace)) / 2;
+    winPoint += biasLeft;
+    var firstPoint = (game.height - (fieldNumRows * tileHeight)- ((fieldNumRows-1) * tileSpace)) / 2;
+    firstPoint += biasTop;
+    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , characterList[0].characterSpriteKey);
+    giant.anchor.setTo(0.5, 0.5);
+    totalTime++;
+    timer = game.time.now+1000;
+    giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
 }
