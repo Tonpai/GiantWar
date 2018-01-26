@@ -5,6 +5,8 @@ var gamePlay = function(game){};
 //Relate with Field Function.
 var buttonSelectedCharacter= [];
 var buttonSelectedField = [];
+var enemyFieldRowsGroup = [];
+var fieldRowsGroup = [];
 
 gamePlay.prototype = {
     preload :function(){
@@ -49,7 +51,6 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
     this.tileHeight = tileHeight;
     this.tileSpace = tileSpace;
     this.context = context;
-    var fieldRowsGroup = [];
 
     this.create = function(){
         // Calculate for making the field is center.
@@ -70,8 +71,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             fieldRowsGroup.push(game.add.group());
             fieldRowsGroup[i].enableBody = true;
         }
-
-        console.log(characterList);
+        DefineEnemyFieldRowGroups(5);
     };
 
     this.onClickTiles = function(target){
@@ -130,9 +130,14 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     winPoint += biasLeft;
     var firstPoint = (game.height - (fieldNumRows * tileHeight)- ((fieldNumRows-1) * tileSpace)) / 2;
     firstPoint += biasTop;
-    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , characterList[0].characterSpriteKey);
+    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , characterList[0].characterSpriteKey, 0, enemyFieldRowsGroup[rand-1]);
     giant.anchor.setTo(0.5, 0.5);
     totalTime++;
     timer = game.time.now+1000;
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
+}
+
+function DefineEnemyFieldRowGroups(numRow){
+    var field = enemyFieldRowsGroup.push(game.add.group());
+    
 }
