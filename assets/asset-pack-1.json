@@ -78,5 +78,19 @@
             "margin": 0,
             "spacing": 0
         }
+    ],
+    "title-screen-asset" : [
+        {
+            "type": "image",
+            "key": "title-background",
+            "url": "assets/img/title-background.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "btn-game-start",
+            "url": "assets/img/btn-game-start.png",
+            "overwrite": false
+        }
     ]
 }

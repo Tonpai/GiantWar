@@ -12,5 +12,5 @@ window.onload = function(){
     //fist stage start
     // game.state.start("loadSrc");
     //TODO : DELETE WHEN gamePlay STATE is ALLREADY.
-    game.state.start("selectCharacter");
+    game.state.start("titleScreen");
 }
