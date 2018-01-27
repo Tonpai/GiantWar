@@ -39,7 +39,7 @@ gamePlay.prototype = {
         this.cursor = game.input.keyboard.createCursorKeys();
     },
     update : function(){
-        if(totalTime < 100&& game.time.now > timer){
+        if(totalTime < 5 && game.time.now > timer){
             GenerateGiant(5, 9, 50, 60, 2, 20, 40);
             console.log("generate giant");
         }
@@ -138,7 +138,7 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "sprite-giant-1", 0, enemyFieldRowsGroup[rand-1]);
     giant.anchor.setTo(0.5, 0.5);
     totalTime++;
-    timer = game.time.now+10000;
+    timer = game.time.now+25000;
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
 }
 

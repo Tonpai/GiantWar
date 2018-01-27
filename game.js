@@ -7,6 +7,7 @@ window.onload = function(){
     game.state.add("loadSrc",loadSrc);
     game.state.add("titleScreen", titleScreen);
     game.state.add("selectCharacter", selectCharacter);
+    game.state.add("selectChapter", selectChapter);
     game.state.add("gamePlay", gamePlay);
     
     //fist stage start

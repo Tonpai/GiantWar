@@ -92,5 +92,27 @@
             "url": "assets/img/btn-game-start.png",
             "overwrite": false
         }
+    ],
+    "select-chapter-asset" : [
+        {
+            "type": "image",
+            "key": "select-chapter-background",
+            "url": "assets/img/select-chapter-background.png",
+            "overwrite": false
+        }
+    ],
+    "audio-background-1" : [
+        {
+            "type": "audio",
+            "key": "bensound-theduel",
+            "urls": ["assets/audio/bensound-theduel.ogg", "assets/audio/bensound-theduel.mp3"],
+            "autoDecode": true
+        },
+        {
+            "type": "audio",
+            "key": "click-sound",
+            "urls": ["assets/audio/click-sound.ogg", "assets/audio/click-sound.mp3"],
+            "autoDecode": true
+        }
     ]
 }
