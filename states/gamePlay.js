@@ -17,6 +17,11 @@ gamePlay.prototype = {
             game.load.pack(characterList[index].characterArrayName,"assets/asset-pack-1.json");
             console.log("import " + characterList[index].characterArrayName);
         }
+
+        //LoadGiant
+        game.load.pack("giant-1", "assets/asset-pack-1.json");
+
+
     },
     create : function(){
         console.log(buttonSelectedCharacter.length < 1);
@@ -130,10 +135,10 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     winPoint += biasLeft;
     var firstPoint = (game.height - (fieldNumRows * tileHeight)- ((fieldNumRows-1) * tileSpace)) / 2;
     firstPoint += biasTop;
-    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , characterList[0].characterSpriteKey, 0, enemyFieldRowsGroup[rand-1]);
+    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "sprite-giant-1", 0, enemyFieldRowsGroup[rand-1]);
     giant.anchor.setTo(0.5, 0.5);
     totalTime++;
-    timer = game.time.now+1000;
+    timer = game.time.now+10000;
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
 }
 

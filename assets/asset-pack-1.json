@@ -66,5 +66,17 @@
             "margin": 0,
             "spacing": 0
         }
+    ],
+    "giant-1" : [
+        {
+            "type": "image",
+            "key": "sprite-giant-1",
+            "url": "assets/img/sprite-giant-1.png",
+            "frameWidth": 0,
+            "frameHeight": 0,
+            "frameMax": 1,
+            "margin": 0,
+            "spacing": 0
+        }
     ]
 }
