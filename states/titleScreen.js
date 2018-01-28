@@ -2,7 +2,6 @@
 
 var titleScreen = function(game){};
 
-
 var audioBackground;
 
 titleScreen.prototype = {

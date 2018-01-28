@@ -68,4 +68,5 @@ function shiftChapter(){
 
 function onClickChapter(){
     ClickButtonFeedback();
+    game.state.start("gamePlay");
 }
