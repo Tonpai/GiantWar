@@ -99,6 +99,24 @@
             "key": "select-chapter-background",
             "url": "assets/img/select-chapter-background.png",
             "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "btn-right-arrow",
+            "url": "assets/img/btn-right-arrow.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "btn-left-arrow",
+            "url": "assets/img/btn-left-arrow.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "btn-selection-background",
+            "url": "assets/img/btn-selection-background.png",
+            "overwrite": false
         }
     ],
     "audio-background-1" : [

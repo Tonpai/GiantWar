@@ -11,3 +11,29 @@ selectChapter.prototype = {
         console.log("selectChapter is loaded.");
     }
 };
+
+var pageNum = 1;
+var selectChapterButton = [];
+var leftArrow;
+var rightArrow;
+
+
+function PrepareUI(){
+    // Image property
+    var arrowWidth = 85;
+    var arrowHeight = 55;
+    var selectChapterButtonWidth = 77;
+    var selectChapterButtonHeight = 77;
+    // Space
+    var arrowSpace = 10;   
+    var btnSelectChapterSpace = 5;
+    //Number
+    var btnNumber = 3;
+    
+    // Calculate Center :: Equation is fixible for changing parameter above.
+    var leftSpace = (game.width - (arrowWidth * 2 + arrowSpace * 2 +
+                    btnNumber * arrowWidth + (btnNumber - 1) * btnSelectChapterSpace)) / 2;
+    var topSpace = (game-height - max(selectChapterButtonHeight, arrowHeight)) / 2;
+    
+    
+}
