@@ -22,12 +22,12 @@ titleScreen.prototype = {
         console.log("titleScreen is loaded.");
     },
     startSelectChapter : function(){
-        ClickButton();
+        ClickButtonFeedback();
         game.state.start("selectChapter");
     }
 };
 
-function ClickButton(){
+function ClickButtonFeedback(){
     var audio = game.add.audio("click-sound");
     audio.play();
 }
