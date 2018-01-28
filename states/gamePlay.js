@@ -8,6 +8,13 @@ var buttonSelectedField = [];
 var enemyFieldRowsGroup = [];
 var fieldRowsGroup = [];
 
+// Audio
+// Background audio
+var gamePlayBackgroundAudio;
+// onClickSound
+var standHumanAudio;
+var onClickSelectCharacterAudio;
+
 gamePlay.prototype = {
     preload :function(){
         //Load asset
@@ -21,7 +28,8 @@ gamePlay.prototype = {
         //LoadGiant
         game.load.pack("giant-1", "assets/asset-pack-1.json");
 
-
+        // audioBackground pause
+        audioBackground.pause();
     },
     create : function(){
         console.log(buttonSelectedCharacter.length < 1);
@@ -37,6 +45,16 @@ gamePlay.prototype = {
         this.characterPanel.create();
         // Set object to Arcade physics engine
         this.cursor = game.input.keyboard.createCursorKeys();
+
+        // add sound effect.
+        standHumanAudio = game.add.audio("stand-human", 1);
+        onClickSelectCharacterAudio = game.add.audio("onclick-select-character", 1);
+
+        //play music
+        gamePlayBackgroundAudio = game.add.audio("last-warrior-epic-cinematic", 1);
+        gamePlayBackgroundAudio.loop = true;
+        gamePlayBackgroundAudio.play();
+
     },
     update : function(){
         if(totalTime < 5 && game.time.now > timer){
@@ -92,6 +110,8 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             character.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(character);
             //indexOf()returns index of array
+            standHumanAudio.play();
+            console.log("standed the human");
         }
 
         // if(buttonSelectedCharacter.length == 1)
@@ -119,6 +139,7 @@ function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpa
         if(buttonSelectedCharacter.length == 0 && buttonSelectedCharacter.indexOf(target) == -1){
             console.log("Player select character : " + target.value);
             buttonSelectedCharacter.push(target);
+            onClickSelectCharacterAudio.play();
         }else if(buttonSelectedCharacter.length == 1 && buttonSelectedCharacter.indexOf(target) != -1){
             console.log("Player unselect character : " + target.value);
             buttonSelectedCharacter.length = 0;
@@ -126,6 +147,7 @@ function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpa
             buttonSelectedCharacter.pop()
             buttonSelectedCharacter.push(target);
             console.log("Player select character : " + target.value);
+            onClickSelectCharacterAudio.play();
         }
     }
 }
@@ -147,6 +169,6 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
 }
 
 function DefineEnemyFieldRowGroups(numRow){
-    var field = enemyFieldRowsGroup.push(game.add.group());
-    
+    var field = enemyFieldRowsGroup.push(game.add.group());   
 }
+

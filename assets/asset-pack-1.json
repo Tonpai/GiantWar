@@ -11,6 +11,24 @@
             "key": "tiles-1-1",
             "url": "assets/img/tiles-1-1.png",
             "overwrite": false
+        },
+        {
+            "type": "audio",
+            "key": "last-warrior-epic-cinematic",
+            "urls": ["assets/audio/last-warrior-epic-cinematic.ogg", "assets/audio/last-warrior-epic-cinematic.mp3"],
+            "autoDecode": true
+        },
+        {
+            "type": "audio",
+            "key": "stand-human",
+            "urls": ["assets/audio/stand-human.ogg", "assets/audio/stand-human.mp3"],
+            "autoDecode": true
+        },
+        {
+            "type": "audio",
+            "key": "onclick-select-character",
+            "urls": ["assets/audio/onclick-select-character.ogg", "assets/audio/onclick-select-character.mp3"],
+            "autoDecode": true
         }
     ],
     "character-1" : [
