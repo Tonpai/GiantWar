@@ -105,7 +105,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             console.log("row : " + target.value.row + ", y-axis : " + target.y);
             var characterIndex = buttonSelectedCharacter.pop().value;
             var character = game.add.sprite(target.x+(tileWidth/2), target.y, characterList[characterIndex].characterSpriteKey, 0, fieldRowsGroup[target.value.row]);
-            character.animations.add('stand',[0,1,2], 3, true);
+            character.animations.add('stand',[0,1,2], 6, true);
             character.play('stand');
             character.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(character);
@@ -160,7 +160,7 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     var firstPoint = (game.height - (fieldNumRows * tileHeight)- ((fieldNumRows-1) * tileSpace)) / 2;
     firstPoint += biasTop;
     var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "spritesheet-giant-1", 0, enemyFieldRowsGroup[rand-1]);
-    giant.animations.add("walk", [0,1], 2, true);
+    giant.animations.add("walk", [0,1,2,3,4], 5, true);
     giant.animations.play("walk");
     giant.anchor.setTo(0.5, 0.5);
     totalTime++;

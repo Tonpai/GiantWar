@@ -130,9 +130,9 @@
             "type": "spritesheet",
             "key": "spritesheet-giant-1",
             "url": "assets/img/spritesheet-giant-1.png",
-            "frameWidth": 60,
+            "frameWidth": 80,
             "frameHeight": 90,
-            "frameMax": 2,
+            "frameMax": 5,
             "margin": 0,
             "spacing": 0
         }
