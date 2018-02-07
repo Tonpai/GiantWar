@@ -29,6 +29,12 @@
             "key": "onclick-select-character",
             "urls": ["assets/audio/onclick-select-character.ogg", "assets/audio/onclick-select-character.mp3"],
             "autoDecode": true
+        },
+        {
+            "type": "image",
+            "key": "arrow",
+            "url": "assets/img/arrow.png",
+            "overwrite": false
         }
     ],
     "character-1" : [

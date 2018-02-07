@@ -62,6 +62,7 @@ gamePlay.prototype = {
             GenerateGiant(5, 9, 50, 60, 2, 20, 40);
             console.log("generate giant");
         }
+        
     }
 }
 
@@ -106,11 +107,33 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
         if(target.value.stand != true && buttonSelectedCharacter.length != 0){
             target.value.stand = true;
             console.log("row : " + target.value.row + ", y-axis : " + target.y);
+            
+            // สร้างตัวละคร
+            // - สร้างตัวละคร(พิกัด, กลุ่ม)
+            // - กำหนด character.animation
+            // - กำหนด character.anchor
+            // TODO :: กำหนด character.physicsEngine
+            // TODO :: กำหนด characterWeapon
+            // TODO :: ผูก Weapon เข้ากับ Character ที่สร้าง
+            // - สั่งเล่น character.animation
             var characterIndex = buttonSelectedCharacter.pop().value;
             var character = game.add.sprite(target.x+(tileWidth/2), target.y, characterList[characterIndex].characterSpriteKey, 0, fieldRowsGroup[target.value.row]);
-            character.animations.add('stand',[0,1,2], 6, true);
-            character.play('stand');
+            var anim = character.animations.add('stand',[0,1,2], 6, true);
             character.anchor.setTo(0.5, 0.5);
+            character.play('stand');
+
+            character.weapon = game.add.weapon(10, "arrow");
+            character.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+            character.weapon.trackSprite(character, 0, 0);
+            // character.weapon.bulletAngleVariance = -90;
+            // character.weapon.fireAngle = 0;
+            character.weapon.bulletSpeed = 550;
+            character.weapon.rate = 600;
+
+            character.weapon.fire();
+
+            anim.onLoop.add(animationLooped, context);
+
             game.physics.arcade.enable(character);
             //indexOf()returns index of array
             standHumanAudio.play();
@@ -121,6 +144,9 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
     }
 }
 
+function animationLooped(sprite, animation){
+    sprite.weapon.fire();
+}
 
 function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpace, topSpace, context){
     this.characterList = characterList;
@@ -170,6 +196,35 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     timer = game.time.now+25000;
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
 }
+
+
+// function createWeapon(CharacterContext){
+//     // Create weapon
+//     this.weapon = game.add.weapon(10, "arrow");
+//     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+//     this.weapon.trackSprite(CharacterContext, 0, 0);
+//     this.weapon.bulletAngleVariance = 15;
+// 	this.weapon.fireAngle = 270;
+// 	this.weapon.bulletSpeed = 550;
+// 	this.weapon.rate = 600;
+// }
+
+// function Weapon(CharacterContext){
+
+//         this.weapon = game.add.weapon(10, "arrow");
+//         this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+//         this.weapon.trackSprite(CharacterContext, 0, 0);
+//         this.weapon.bulletAngleVariance = 15;
+//         this.weapon.fireAngle = 270;
+//         this.weapon.bulletSpeed = 550;
+//         this.weapon.rate = 600;
+
+//     function fireWeapon(){
+//         this.weapon.fire();
+//     }
+// }
+
+// ยิงด้วยคำสั่ง this.weapon.fire()
 
 // Level = function(){ };
 // Level.prototype.job = function(){
