@@ -9,6 +9,8 @@ titleScreen.prototype = {
         game.load.pack("title-screen-asset", "assets/asset-pack-1.json");
         game.load.pack("audio-background-1", "assets/asset-pack-1.json");
 
+         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
         console.log("audio-background-1 is loaded.");
     },
     create : function(){

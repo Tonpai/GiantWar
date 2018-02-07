@@ -7,6 +7,7 @@ var buttonSelectedCharacter= [];
 var buttonSelectedField = [];
 var enemyFieldRowsGroup = [];
 var fieldRowsGroup = [];
+var giantFieldRowsGroup = [];
 
 // Audio
 // Background audio
@@ -93,8 +94,10 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             console.log("adding group to array");
             fieldRowsGroup.push(game.add.group());
             fieldRowsGroup[i].enableBody = true;
+            //Create field for giant
+            giantFieldRowsGroup.push(game.add.group());
+            giantFieldRowsGroup[i].enableBody = true;
         }
-        DefineEnemyFieldRowGroups(5);
     };
 
     this.onClickTiles = function(target){
@@ -159,7 +162,7 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     winPoint += biasLeft;
     var firstPoint = (game.height - (fieldNumRows * tileHeight)- ((fieldNumRows-1) * tileSpace)) / 2;
     firstPoint += biasTop;
-    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "spritesheet-giant-1", 0, enemyFieldRowsGroup[rand-1]);
+    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "spritesheet-giant-1", 0, giantFieldRowsGroup[rand-1]);
     giant.animations.add("walk", [0,1,2,3,4], 5, true);
     giant.animations.play("walk");
     giant.anchor.setTo(0.5, 0.5);
@@ -168,7 +171,25 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
 }
 
-function DefineEnemyFieldRowGroups(numRow){
-    var field = enemyFieldRowsGroup.push(game.add.group());   
-}
+// Level = function(){ };
+// Level.prototype.job = function(){
+
+// }
+
+// Level2 = function(){};
+// Level2.prototype = Object.create(Level);
+
+// x = new Level2();
+// x.job();
+
+// Level = function(){ };
+// Level.prototype.job = function(){
+
+// }
+
+// Level2 = function(){};
+// Level2.prototype = Object.create(Level);
+
+// x = new Level2();
+// x.job();
 
