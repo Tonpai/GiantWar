@@ -17,7 +17,7 @@ var standHumanAudio;
 var onClickSelectCharacterAudio;
 
 //-----Weapon Variable-----
-var arrowWeapon;
+var arrowWeapon = [];
 //-------------------------
 
 gamePlay.prototype = {
@@ -67,10 +67,12 @@ gamePlay.prototype = {
 
 
         //--------สร้าง Weapon ธนู---------
-        arrowWeapon = game.add.weapon(30, "arrow");
-        arrowWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        arrowWeapon.fireAngle = 0;
-        arrowWeapon.bulletSpeed = 400;
+        for(var i = 0 ; i < 5 ; i++){
+            arrowWeapon.push(game.add.weapon(30, "arrow"));
+            arrowWeapon[i].bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+            arrowWeapon[i].fireAngle = 0;
+            arrowWeapon[i].bulletSpeed = 400;
+        }
         //-------------------------------
         console.log("[state] : create weapon finished");
         console.log(arrowWeapon.bullets);
@@ -81,21 +83,45 @@ gamePlay.prototype = {
             GenerateGiant(5, 9, 50, 60, 2, 20, 40);
             console.log("generate giant");
         }
-        game.physics.arcade.overlap(giantFieldRowsGroup[0], arrowWeapon.bullets, onCollide, null, this);
-        game.physics.arcade.overlap(giantFieldRowsGroup[1], arrowWeapon.bullets, onCollide, null, this);
-        game.physics.arcade.overlap(giantFieldRowsGroup[2], arrowWeapon.bullets, onCollide, null, this);
-        game.physics.arcade.overlap(giantFieldRowsGroup[3], arrowWeapon.bullets, onCollide, null, this);
-        game.physics.arcade.overlap(giantFieldRowsGroup[4], arrowWeapon.bullets, onCollide, null, this);
+
+        for(var i=0 ; i<5 ; i++){
+            game.physics.arcade.overlap(giantFieldRowsGroup[i], arrowWeapon[i].bullets, onCollide, null, this);
+        }
     }
 }
 
 function onCollide(giant, bullet){
+    //-----------------------------------------
+    // pseudo code
+    // if bullet.value.row != giant.value.row
+    //  return
+    // giant.value--
+    // bullet.kill()
+    // if giant.value.hp == 0
+    //  giant.changeAnimation(dead)
+    //  wait_time(5)
+    //  giant.destroy();
+    // PROBLEM :: bullet.value.row, giant.value.row
+    //-----------------------------------------
+
+    // if(bullet.value.row != giant.value.row){
+    //     return;
+    // }
+
+    // giant.value.hp--;
+    // bullet.kill();
+    // if(giant.value.hp == 0){
+    //     // TODO :: Change dead animation
+    //     // TODO :: Wait time
+    //     giant.destroy();  
+    // }
+
+    console.log("giant.value.row : " + giant.value.row);
     bullet.kill();
     giant.value.hp--;
     if(giant.value.hp == 0){
         giant.destroy();
     }
-    console.log('touch the giant');
 }
 // var CharacterObject = function(){
 //     var createByGroup = function(x, y, spritesheet, group){
@@ -114,17 +140,21 @@ function onCollide(giant, bullet){
 //     }
 // }
 
-function animationLooped(sprite, animation){
+    function animationLooped(sprite, animation){
     //-----Fire arrowWeapon-----
-    arrowWeapon.fire(sprite, sprite.x, sprite.y);
+    var bullet = arrowWeapon[sprite.value.row].fire(sprite, sprite.x, sprite.y);
+    console.log(bullet);
     //--------------------------
 }
 
 var CharacterObject = {
-    createByGroup : function(x, y, spritesheet, group){
+    createByGroup : function(x, y, spritesheet, group, rowNumber){
         var character = game.add.sprite(x, y, spritesheet, 0, group);
         this.addAnimation(character, 'stand', [2,1,0], 3);
         character.anchor.setTo(0.5, 0.5);
+        character.value = {
+            row : rowNumber
+        };
         return character;
     },
     addAnimation : function(character, animationName, animationSequence, frameRate){
@@ -204,7 +234,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             var spriteKey = characterList[characterIndex].characterSpriteKey;
             var characterGroup = fieldRowsGroup[target.value.row];
             
-            var character = CharacterObject.createByGroup(x, y, spriteKey, characterGroup);
+            var character = CharacterObject.createByGroup(x, y, spriteKey, characterGroup, target.value.row);
             CharacterObject.playAnimation(character, 'stand');
 
             // character.weapon = game.add.weapon(10, "arrow");
@@ -284,7 +314,8 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     totalTime++;
     timer = game.time.now+25000;
     giant.value = {
-        hp : 10
+        hp : 10,
+        row : rand-1
     }
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
 }
