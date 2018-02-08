@@ -20,6 +20,20 @@ var onClickSelectCharacterAudio;
 var arrowWeapon = [];
 //-------------------------
 
+//----- Money -----
+var money = 10;
+var moneyTextShow;
+var styleMoneyTextShow = {
+    font : "20px Arial",
+    fill : "#ffffff",
+    align : "center"
+};
+//-----------------
+
+//----- Weapon Sound -----
+var arrowSound;
+var arrowSoundImpact;
+//------------------------
 gamePlay.prototype = {
     preload :function(){
         //Load asset
@@ -65,6 +79,13 @@ gamePlay.prototype = {
         gamePlayBackgroundAudio.loop = true;
         gamePlayBackgroundAudio.play();
 
+        //arrow sound
+        arrowSound = game.add.audio("arrow-sound", 1);
+        arrowSoundImpact = game.add.audio("arrow-sound-impact", 1);
+
+        //Money
+        moneyTextShow = game.add.text(530,18, money, styleMoneyTextShow);
+
 
         //--------สร้าง Weapon ธนู---------
         for(var i = 0 ; i < 5 ; i++){
@@ -79,7 +100,7 @@ gamePlay.prototype = {
 
     },
     update : function(){
-        if(totalTime < 5 && game.time.now > timer){
+        if(totalTime < 30 && game.time.now > timer){
             GenerateGiant(5, 9, 50, 60, 2, 20, 40);
             console.log("generate giant");
         }
@@ -115,11 +136,14 @@ function onCollide(giant, bullet){
     //     // TODO :: Wait time
     //     giant.destroy();  
     // }
-
+    arrowSoundImpact.play();
     console.log("giant.value.row : " + giant.value.row);
     bullet.kill();
     giant.value.hp--;
+    giant.body.velocity.x -= 100;
+    
     if(giant.value.hp == 0){
+
         giant.destroy();
     }
 }
@@ -146,9 +170,14 @@ function LoseGame(){
 
 function attackerAnimationLooped(sprite, animation){
     //-----Fire arrowWeapon-----
+    arrowSound.play();
     var bullet = arrowWeapon[sprite.value.row].fire(sprite, sprite.x, sprite.y);
     console.log(bullet);
     //--------------------------
+}
+
+function minerAnimationLooped(sprite, animation){
+    // TODO :: เพิ่มเงิน
 }
 
 var CharacterObject = {
@@ -327,7 +356,7 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     giant.animations.play("walk");
     giant.anchor.setTo(0.5, 0.5);
     totalTime++;
-    timer = game.time.now+25000;
+    timer = game.time.now+10000;
     giant.value = {
         hp : 10,
         row : rand-1

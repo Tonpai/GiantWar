@@ -37,6 +37,12 @@
             "autoDecode": true
         },
         {
+            "type": "audio",
+            "key": "arrow-sound-impact",
+            "urls": ["assets/audio/arrow-sound-impact.ogg", "assets/audio/arrow-sound-impact.mp3"],
+            "autoDecode": true
+        },
+        {
             "type": "image",
             "key": "arrow",
             "url": "assets/img/arrow.png",
