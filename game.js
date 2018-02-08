@@ -10,7 +10,8 @@ window.onload = function(){
     game.state.add("selectCharacter", selectCharacter);
     game.state.add("selectChapter", selectChapter);
     game.state.add("gamePlay", gamePlay);
-    
+    game.state.add("loseGame", loseGame);
+    game.state.add("winGame", winGame);
     
     //fist stage start
     // game.state.start("loadSrc");

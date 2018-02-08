@@ -26,6 +26,12 @@
         },
         {
             "type": "audio",
+            "key": "arrow-sound",
+            "urls": ["assets/audio/arrow-sound.ogg", "assets/audio/arrow-sound.mp3"],
+            "autoDecode": true
+        },
+        {
+            "type": "audio",
             "key": "onclick-select-character",
             "urls": ["assets/audio/onclick-select-character.ogg", "assets/audio/onclick-select-character.mp3"],
             "autoDecode": true
@@ -34,6 +40,22 @@
             "type": "image",
             "key": "arrow",
             "url": "assets/img/arrow.png",
+            "overwrite": false
+        }
+    ],
+    "win-game-asset": [
+        {
+            "type": "image",
+            "key": "win-game-background",
+            "url": "assets/img/win-game-background.png",
+            "overwrite": false
+        }
+    ],
+    "lose-game-asset": [
+        {
+            "type": "image",
+            "key": "lose-game-background",
+            "url": "assets/img/lose-game-background.png",
             "overwrite": false
         }
     ],

@@ -140,7 +140,11 @@ function onCollide(giant, bullet){
 //     }
 // }
 
-    function animationLooped(sprite, animation){
+function LoseGame(){
+    game.state.start("loseGame");
+}
+
+function attackerAnimationLooped(sprite, animation){
     //-----Fire arrowWeapon-----
     var bullet = arrowWeapon[sprite.value.row].fire(sprite, sprite.x, sprite.y);
     console.log(bullet);
@@ -148,9 +152,18 @@ function onCollide(giant, bullet){
 }
 
 var CharacterObject = {
-    createByGroup : function(x, y, spritesheet, group, rowNumber){
+    createByGroup : function(x, y, spritesheet, group, characterClass,rowNumber){
         var character = game.add.sprite(x, y, spritesheet, 0, group);
-        this.addAnimation(character, 'stand', [2,1,0], 3);
+        var anim = this.addAnimation(character, 'stand', [2,1,0], 3);
+        if(characterClass == "attacker"){
+            anim.onLoop.add(attackerAnimationLooped, this);
+        }else if(characterClass == "preventer"){
+
+        }else if(characterClass == "miner"){
+
+        }
+
+
         character.anchor.setTo(0.5, 0.5);
         character.value = {
             row : rowNumber
@@ -159,12 +172,13 @@ var CharacterObject = {
     },
     addAnimation : function(character, animationName, animationSequence, frameRate){
         var anim = character.animations.add(animationName, animationSequence, frameRate, true);
-        anim.onLoop.add(animationLooped, this);
+        return anim;
     },
     playAnimation : function(character, animationName){
         character.play(animationName);
     }
 };
+
 
 
 function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileSpace, biasTop, biasLeft, context){
@@ -233,8 +247,9 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             var y = target.y;
             var spriteKey = characterList[characterIndex].characterSpriteKey;
             var characterGroup = fieldRowsGroup[target.value.row];
+            var characterClass = characterList[characterIndex].characterClass;
             
-            var character = CharacterObject.createByGroup(x, y, spriteKey, characterGroup, target.value.row);
+            var character = CharacterObject.createByGroup(x, y, spriteKey, characterGroup, characterClass, target.value.row);
             CharacterObject.playAnimation(character, 'stand');
 
             // character.weapon = game.add.weapon(10, "arrow");
@@ -318,6 +333,7 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
         row : rand-1
     }
     giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
+    giant.tween.onComplete.add(LoseGame,this);
 }
 
 
