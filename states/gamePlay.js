@@ -33,6 +33,7 @@ gamePlay.prototype = {
         audioBackground.pause();
     },
     create : function(){
+        game.physics.arcade.enable(this);
         console.log(buttonSelectedCharacter.length < 1);
 
         console.log("Load gamePlay background");
@@ -62,7 +63,6 @@ gamePlay.prototype = {
             GenerateGiant(5, 9, 50, 60, 2, 20, 40);
             console.log("generate giant");
         }
-        
     }
 }
 
@@ -98,6 +98,10 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             //Create field for giant
             giantFieldRowsGroup.push(game.add.group());
             giantFieldRowsGroup[i].enableBody = true;
+
+            game.physics.enable(giantFieldRowsGroup[i], Phaser.Physics.ARCADE);
+            console.log("Set ARCADE Physics Engine to giantFieldRowsGroups["+i+"]");
+
         }
     };
 
@@ -118,7 +122,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             // - สั่งเล่น character.animation
             var characterIndex = buttonSelectedCharacter.pop().value;
             var character = game.add.sprite(target.x+(tileWidth/2), target.y, characterList[characterIndex].characterSpriteKey, 0, fieldRowsGroup[target.value.row]);
-            var anim = character.animations.add('stand',[0,1,2], 6, true);
+            var anim = character.animations.add('stand',[2,1,0], 3, true);
             character.anchor.setTo(0.5, 0.5);
             character.play('stand');
 
@@ -126,18 +130,20 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             character.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
             character.weapon.trackSprite(character, 0, 0);
             // character.weapon.bulletAngleVariance = -90;
-            // character.weapon.fireAngle = 0;
-            character.weapon.bulletSpeed = 550;
-            character.weapon.rate = 600;
+            character.weapon.fireAngle = 0;
+            character.weapon.bulletSpeed = 400;
+            // character.weapon.rate = 1200;
 
             character.weapon.fire();
 
             anim.onLoop.add(animationLooped, context);
-
-            game.physics.arcade.enable(character);
+            
+            //set physics character.weapon and giant in the row
+            game.physics.arcade.collide(giantFieldRowsGroup[target.value.row], character.weapon.bullets, console.log('touch giant'), context);
+            console.log(character.weapon.bullets);
             //indexOf()returns index of array
             standHumanAudio.play();
-            console.log("standed the human");
+            console.log("standed the human on target row " + target.value.row );
         }
 
         // if(buttonSelectedCharacter.length == 1)
@@ -146,6 +152,10 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
 
 function animationLooped(sprite, animation){
     sprite.weapon.fire();
+}
+
+function onColide(){
+
 }
 
 function CharacterPanel(characterList, tileWidth, tileHeight, tileSpace, leftSpace, topSpace, context){
@@ -188,7 +198,10 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     winPoint += biasLeft;
     var firstPoint = (game.height - (fieldNumRows * tileHeight)- ((fieldNumRows-1) * tileSpace)) / 2;
     firstPoint += biasTop;
-    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "spritesheet-giant-1", 0, giantFieldRowsGroup[rand-1]);
+    var giant = game.add.sprite(600,firstPoint + ((tileHeight + tileSpace)*(rand-1)) , "spritesheet-giant-1", 0, giantFieldRowsGroup[(rand-1)]);
+    console.log("Generate giant to : " + (rand-1));
+
+
     giant.animations.add("walk", [0,1,2,3,4], 5, true);
     giant.animations.play("walk");
     giant.anchor.setTo(0.5, 0.5);
