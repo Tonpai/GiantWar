@@ -178,6 +178,8 @@ function attackerAnimationLooped(sprite, animation){
 
 function minerAnimationLooped(sprite, animation){
     // TODO :: เพิ่มเงิน
+    money += 1;
+    moneyTextShow.text = money.toString();
 }
 
 var CharacterObject = {
@@ -189,7 +191,8 @@ var CharacterObject = {
         }else if(characterClass == "preventer"){
 
         }else if(characterClass == "miner"){
-
+            anim.onLoop.add(minerAnimationLooped, this);
+            
         }
 
 
@@ -265,7 +268,16 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             // TODO :: กำหนด characterWeapon
             // TODO :: ผูก Weapon เข้ากับ Character ที่สร้าง
             // - สั่งเล่น character.animation
-            var characterIndex = buttonSelectedCharacter.pop().value;
+            var characterIndex = buttonSelectedCharacter.pop();
+
+            if(characterList[characterIndex.value].characterCost > money){
+                buttonSelectedCharacter.push(characterIndex);
+                return;
+            }
+            
+            money -= characterList[characterIndex.value].characterCost;
+            moneyTextShow.text = money.toString();
+            
             // var character = game.add.sprite(target.x+(tileWidth/2), target.y, characterList[characterIndex].characterSpriteKey, 0, fieldRowsGroup[target.value.row]);
             // var anim = character.animations.add('stand',[2,1,0], 3, true);
             // character.anchor.setTo(0.5, 0.5);
@@ -274,9 +286,9 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             // var character = 
             var x = target.x+(tileWidth/2);
             var y = target.y;
-            var spriteKey = characterList[characterIndex].characterSpriteKey;
+            var spriteKey = characterList[characterIndex.value].characterSpriteKey;
             var characterGroup = fieldRowsGroup[target.value.row];
-            var characterClass = characterList[characterIndex].characterClass;
+            var characterClass = characterList[characterIndex.value].characterClass;
             
             var character = CharacterObject.createByGroup(x, y, spriteKey, characterGroup, characterClass, target.value.row);
             CharacterObject.playAnimation(character, 'stand');
