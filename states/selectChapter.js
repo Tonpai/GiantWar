@@ -19,6 +19,12 @@ var leftArrow;
 var rightArrow;
 
 
+var styleTextShow = {
+    font : "50px Comic Sans MS",
+    fill : "#ffffff",
+    align : "center"
+};
+
 function PrepareUI(context){
     // Image property
     var arrowWidth = 85;
@@ -56,8 +62,9 @@ function PrepareUI(context){
     var startPointY = topSpace;
     for (var index = 0; index < btnNumber; index++) {
         selectChapterButton.push(game.add.button(startPointX, startPointY, "btn-selection-background", onClickChapter, context));
+        game.add.text(startPointX+25,startPointY+2, index+1, styleTextShow);
         startPointX += btnSelectChapterSpace + selectChapterButtonWidth;
-
+        
     }
 
 }

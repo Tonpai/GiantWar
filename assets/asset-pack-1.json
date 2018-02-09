@@ -43,9 +43,22 @@
             "autoDecode": true
         },
         {
+            "type": "audio",
+            "key": "miner-sound",
+            "urls": ["assets/audio/miner-sound.ogg", "assets/audio/miner-sound.mp3"],
+            "autoDecode": true
+        },
+        
+        {
             "type": "image",
             "key": "arrow",
             "url": "assets/img/arrow.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "return-button",
+            "url": "assets/img/return-button.png",
             "overwrite": false
         }
     ],
@@ -55,6 +68,12 @@
             "key": "win-game-background",
             "url": "assets/img/win-game-background.png",
             "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "end-game-button",
+            "url": "assets/img/end-game-button.png",
+            "overwrite": false
         }
     ],
     "lose-game-asset": [
@@ -62,6 +81,12 @@
             "type": "image",
             "key": "lose-game-background",
             "url": "assets/img/lose-game-background.png",
+            "overwrite": false
+        },
+        {
+            "type": "image",
+            "key": "end-game-button",
+            "url": "assets/img/end-game-button.png",
             "overwrite": false
         }
     ],

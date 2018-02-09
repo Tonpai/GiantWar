@@ -9,6 +9,9 @@ var enemyFieldRowsGroup = [];
 var fieldRowsGroup = [];
 var giantFieldRowsGroup = [];
 
+var giantDiedNumber = 0;
+var giantNumber = 5;
+
 // Audio
 // Background audio
 var gamePlayBackgroundAudio;
@@ -33,6 +36,7 @@ var styleMoneyTextShow = {
 //----- Weapon Sound -----
 var arrowSound;
 var arrowSoundImpact;
+var minerSound;
 //------------------------
 gamePlay.prototype = {
     preload :function(){
@@ -83,6 +87,9 @@ gamePlay.prototype = {
         arrowSound = game.add.audio("arrow-sound", 1);
         arrowSoundImpact = game.add.audio("arrow-sound-impact", 1);
 
+        //miner sound
+        minerSound = game.add.audio("miner-sound", 1);
+
         //Money
         moneyTextShow = game.add.text(530,18, money, styleMoneyTextShow);
 
@@ -98,20 +105,51 @@ gamePlay.prototype = {
         console.log("[state] : create weapon finished");
         console.log(arrowWeapon.bullets);
 
+        // game.add.button(0,350, "return-button", StartTitle, this);
+
     },
     update : function(){
-        if(totalTime < 30 && game.time.now > timer){
+        if(totalTime < giantNumber && game.time.now > timer){
             GenerateGiant(5, 9, 50, 60, 2, 20, 40);
             console.log("generate giant");
         }
 
         for(var i=0 ; i<5 ; i++){
-            game.physics.arcade.overlap(giantFieldRowsGroup[i], arrowWeapon[i].bullets, onCollide, null, this);
+            game.physics.arcade.overlap(giantFieldRowsGroup[i], arrowWeapon[i].bullets, onCollideWeapon, null, this);
+        }
+        for(var i=0 ; i<5 ; i++){
+            game.physics.arcade.overlap(giantFieldRowsGroup[i], fieldRowsGroup[i], onCollide, null, this);
+        }
+
+        if(giantDiedNumber >= giantNumber){
+            game.state.start("winGame");
         }
     }
 }
 
-function onCollide(giant, bullet){
+function onCollide(giant, human){
+    console.log("touched human");
+    human.value.hp -= 1;
+    console.log(human.value.class);
+    if(human.value.class == "preventer"){
+        giant.value.hp -= 1 ;
+        giant.body.velocity.x += 2000;
+        console.log("preventer attack");
+    }else{
+        giant.body.velocity.x += 500;
+    }
+
+    if(giant.value.hp < 0){
+        giant.destroy();
+        giantDiedNumber++;
+    }
+
+    if(human.value.hp < 0){
+        human.destroy();
+    }
+}
+
+function onCollideWeapon(giant, bullet){
     //-----------------------------------------
     // pseudo code
     // if bullet.value.row != giant.value.row
@@ -140,11 +178,12 @@ function onCollide(giant, bullet){
     console.log("giant.value.row : " + giant.value.row);
     bullet.kill();
     giant.value.hp--;
-    giant.body.velocity.x -= 100;
+    giant.body.velocity.x += 200;
     
     if(giant.value.hp == 0){
 
         giant.destroy();
+        giantDiedNumber++;
     }
 }
 // var CharacterObject = function(){
@@ -180,21 +219,33 @@ function minerAnimationLooped(sprite, animation){
     // TODO :: เพิ่มเงิน
     money += 1;
     moneyTextShow.text = money.toString();
+    minerSound.play();
 }
 
 var CharacterObject = {
     createByGroup : function(x, y, spritesheet, group, characterClass,rowNumber){
         var character = game.add.sprite(x, y, spritesheet, 0, group);
-        var anim = this.addAnimation(character, 'stand', [2,1,0], 3);
+        
+        
+        var anim = this.addAnimation(character, 'stand', [2,1,0], 2);
         if(characterClass == "attacker"){
+            character.value = {
+                hp : 10,
+            }
             anim.onLoop.add(attackerAnimationLooped, this);
         }else if(characterClass == "preventer"){
-
+            character.value = {
+                hp : 20
+            }
         }else if(characterClass == "miner"){
             anim.onLoop.add(minerAnimationLooped, this);
-            
+            character.value = {
+                hp : 8
+            }
         }
 
+        character.value.class = characterClass;
+        console.log("characterClass is " + characterClass );
 
         character.anchor.setTo(0.5, 0.5);
         character.value = {
@@ -257,7 +308,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
         // ถ้าไม่มีตัวละครในฟิลด์สามารถลงได้
         // ถ้าตัวละครถูกเลือกแล้วสามารถลงได้
         if(target.value.stand != true && buttonSelectedCharacter.length != 0){
-            target.value.stand = true;
+
             console.log("row : " + target.value.row + ", y-axis : " + target.y);
             
             // สร้างตัวละคร
@@ -269,7 +320,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             // TODO :: ผูก Weapon เข้ากับ Character ที่สร้าง
             // - สั่งเล่น character.animation
             var characterIndex = buttonSelectedCharacter.pop();
-
+            
             if(characterList[characterIndex.value].characterCost > money){
                 buttonSelectedCharacter.push(characterIndex);
                 return;
@@ -277,7 +328,7 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             
             money -= characterList[characterIndex.value].characterCost;
             moneyTextShow.text = money.toString();
-            
+            target.value.stand = true;
             // var character = game.add.sprite(target.x+(tileWidth/2), target.y, characterList[characterIndex].characterSpriteKey, 0, fieldRowsGroup[target.value.row]);
             // var anim = character.animations.add('stand',[2,1,0], 3, true);
             // character.anchor.setTo(0.5, 0.5);
@@ -292,7 +343,6 @@ function Field(fieldRows, fieldCols, tileImageName, tileWidth, tileHeight, tileS
             
             var character = CharacterObject.createByGroup(x, y, spriteKey, characterGroup, characterClass, target.value.row);
             CharacterObject.playAnimation(character, 'stand');
-
             // character.weapon = game.add.weapon(10, "arrow");
             // character.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
             // character.weapon.trackSprite(character, 0, 0);
@@ -368,12 +418,12 @@ function GenerateGiant(fieldNumRows, fieldNumCols, tileWidth, tileHeight, tileSp
     giant.animations.play("walk");
     giant.anchor.setTo(0.5, 0.5);
     totalTime++;
-    timer = game.time.now+10000;
+    timer = game.time.now+25000;
     giant.value = {
-        hp : 10,
+        hp : 30,
         row : rand-1
     }
-    giant.tween = game.add.tween(giant).to({ x: winPoint }, 100000, Phaser.Easing.Linear.None, true);
+    giant.tween = game.add.tween(giant).to({ x: winPoint }, 180000, Phaser.Easing.Linear.None, true);
     giant.tween.onComplete.add(LoseGame,this);
 }
 

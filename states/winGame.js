@@ -12,10 +12,14 @@ winGame.prototype = {
         //----- set background -----
         game.add.image(0,0,"win-game-background");
         //--------------------------
+        game.add.button(320,230, "end-game-button", StartTitle, this);
     },
     update : function(){
-
+        
     }
 };
 
+function StartTitle(){
+    game.state.start("titleScreen")
+}
 // TODO :: 

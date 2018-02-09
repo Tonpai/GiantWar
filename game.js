@@ -17,4 +17,5 @@ window.onload = function(){
     // game.state.start("loadSrc");
     //TODO : DELETE WHEN gamePlay STATE is ALLREADY.
     game.state.start("titleScreen");
+    
 }

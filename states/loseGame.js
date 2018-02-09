@@ -12,6 +12,7 @@ loseGame.prototype = {
         //----- set background -----
         game.add.image(0,0,"lose-game-background");
         //--------------------------
+        game.add.button(320,230, "end-game-button", StartTitle, this);
     },
     update : function(){
 
